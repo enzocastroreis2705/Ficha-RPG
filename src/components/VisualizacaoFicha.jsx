@@ -1,33 +1,66 @@
 import './VisualizacaoFicha.css'
 
-const ATRIBUTOS = [
-  { key: 'forca',        label: 'Força',        abrev: 'FOR' },
-  { key: 'resistencia',  label: 'Resistência',  abrev: 'RES' },
-  { key: 'concentracao', label: 'Concentração', abrev: 'CON' },
-  { key: 'agilidade',    label: 'Agilidade',    abrev: 'AGI' },
-  { key: 'eficiencia',   label: 'Eficiência',   abrev: 'EFI' },
-  { key: 'reserva',      label: 'Reserva',      abrev: 'RSV' },
+const CATEGORIAS = [
+  {
+    key: 'fisico',
+    label: 'Físico',
+    orn: '⚔',
+    atributos: [
+      { key: 'forca',       label: 'Força' },
+      { key: 'resistencia', label: 'Resistência' },
+    ]
+  },
+  {
+    key: 'inteligencia',
+    label: 'Inteligência',
+    orn: '◈',
+    atributos: [
+      { key: 'concentracao', label: 'Concentração' },
+      { key: 'eficiencia',   label: 'Eficiência' },
+    ]
+  },
+  {
+    key: 'bencao',
+    label: 'Bênção',
+    orn: '✦',
+    atributos: [
+      { key: 'agilidade', label: 'Agilidade' },
+      { key: 'reserva',   label: 'Reserva' },
+    ]
+  },
 ]
 
-function formatarValor(n) {
-  const num = Number(n) || 0
-  if (num >= 1_000_000_000) return `${(num / 1_000_000_000).toFixed(1).replace('.', ',')}B`
-  if (num >= 1_000_000)     return `${(num / 1_000_000).toFixed(1).replace('.', ',')}M`
-  if (num >= 1_000)         return `${(num / 1_000).toFixed(0)}K`
-  return num.toLocaleString('pt-BR')
+function formatarNumero(n) {
+  return (Number(n) || 0).toLocaleString('pt-BR')
 }
 
-function VisualizacaoFicha({ ficha }) {
+function calcularReiki(atributos) {
+  return Object.values(atributos || {}).reduce((s, v) => s + (Number(v) || 0), 0)
+}
+
+function DivisorGotico({ texto }) {
+  return (
+    <div className="secao-titulo">
+      <span className="secao-orn">✦</span>
+      <span>{texto}</span>
+      <span className="secao-orn">✦</span>
+    </div>
+  )
+}
+
+function VisualizacaoFicha({ ficha, onAbrirHabilidade }) {
   const semDados = !ficha.nome
+  const habilidades = ficha.habilidades || []
 
   return (
     <div className="visualizacao-ficha">
-
       {semDados ? (
-        <p className="ficha-vazia-msg">Nenhuma ficha configurada. Clique em Editar para começar.</p>
+        <p className="ficha-vazia-msg">
+          Nenhuma ficha configurada. Clique em Editar para começar.
+        </p>
       ) : (
         <>
-          {/* ── Cabeçalho gótico ── */}
+          {/* ── Cabeçalho ── */}
           <div className="ficha-cabecalho">
             <div className="ornamento-topo">
               <span className="orn-linha" />
@@ -49,28 +82,35 @@ function VisualizacaoFicha({ ficha }) {
               <span className="orn-linha" />
             </div>
 
-            <div className="ficha-tags">
-              {ficha.raca   && <span className="tag">{ficha.raca}</span>}
-              {ficha.classe && <span className="tag">{ficha.classe}</span>}
-              {ficha.nivel  && <span className="tag tag-nivel">Nível {ficha.nivel}</span>}
+            <div className="reiki-container">
+              <span className="reiki-label">Reiki</span>
+              <span className="reiki-valor">
+                {formatarNumero(calcularReiki(ficha.atributos))}
+              </span>
             </div>
           </div>
 
           {/* ── Atributos ── */}
-          <div className="secao-titulo">
-            <span className="secao-orn">✦</span>
-            <span>Atributos</span>
-            <span className="secao-orn">✦</span>
-          </div>
+          <DivisorGotico texto="Atributos" />
 
-          <div className="atributos-grid">
-            {ATRIBUTOS.map(({ key, label, abrev }) => (
-              <div key={key} className="atributo-card">
-                <span className="atrib-abrev">{abrev}</span>
-                <span className="atrib-valor">
-                  {formatarValor(ficha.atributos?.[key] ?? 0)}
-                </span>
-                <span className="atrib-label">{label}</span>
+          <div className="atributos-categorias">
+            {CATEGORIAS.map(cat => (
+              <div key={cat.key} className="atrib-categoria">
+                <div className="atrib-categoria-header">
+                  <span className="atrib-cat-orn">{cat.orn}</span>
+                  <span className="atrib-cat-label">{cat.label}</span>
+                </div>
+                <div className="atrib-cards-grid">
+                  {cat.atributos.map(({ key, label }) => (
+                    <div key={key} className="atrib-card">
+                      <span className="atrib-card-nome">{label}</span>
+                      <div className="atrib-card-divisor" />
+                      <span className="atrib-card-valor">
+                        {formatarNumero(ficha.atributos?.[key] ?? 0)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -78,13 +118,37 @@ function VisualizacaoFicha({ ficha }) {
           {/* ── Anotações ── */}
           {ficha.anotacoes && (
             <>
-              <div className="secao-titulo">
-                <span className="secao-orn">✦</span>
-                <span>Anotações</span>
-                <span className="secao-orn">✦</span>
-              </div>
+              <DivisorGotico texto="Anotações" />
               <div className="ficha-anotacoes">
                 <p>{ficha.anotacoes}</p>
+              </div>
+            </>
+          )}
+
+          {/* ── Habilidades ── */}
+          {habilidades.length > 0 && (
+            <>
+              <DivisorGotico texto="Habilidades" />
+              <div className="habilidades-lista">
+                {habilidades.map((hab) => (
+                  <button
+                    key={hab.id}
+                    className="habilidade-card"
+                    onClick={() => onAbrirHabilidade(hab)}
+                    type="button"
+                  >
+                    <div className="habilidade-header">
+                      <span className="habilidade-orn">◈</span>
+                      <h3 className="habilidade-nome">{hab.nome}</h3>
+                      {(hab.sub || []).length > 0 && (
+                        <span className="habilidade-sub-count">
+                          {hab.sub.length}
+                        </span>
+                      )}
+                      <span className="habilidade-orn habilidade-orn-expandir">›</span>
+                    </div>
+                  </button>
+                ))}
               </div>
             </>
           )}
