@@ -1,3 +1,22 @@
+/* ── Transições de tela ── */
+@keyframes transicao-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes transicao-entra {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.transicao-fade {
+  animation: transicao-fade 0.3s ease both;
+}
+
+.transicao-entrada {
+  animation: transicao-entra 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* ── Layout principal: imagem | conteúdo ── */
 .ficha-layout {
   display: grid;
@@ -22,12 +41,18 @@
   object-fit: cover;
   object-position: center top;
   display: block;
-  /* blend com o fundo escuro */
   mix-blend-mode: lighten;
   filter: contrast(1.05) brightness(0.95);
+  transition: object-position 0.4s;
 }
 
-/* Gradiente da borda direita da imagem fundindo com o fundo */
+[data-theme="light"] .ficha-imagem {
+  mix-blend-mode: normal;
+  filter: none;
+  object-position: center 10%;
+}
+
+/* Gradiente da borda direita fundindo com o fundo */
 .ficha-imagem-vinheta {
   position: absolute;
   inset: 0;
@@ -99,6 +124,132 @@
   50%       { opacity: 1; }
 }
 
+/* ── Tela de habilidade (fullscreen) ── */
+.tela-habilidade {
+  min-height: calc(100vh - 61px);
+  padding: 2.5rem 3rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hab-voltar {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 3rem;
+}
+
+.hab-tela-conteudo {
+  flex: 1;
+}
+
+.hab-tela-cabecalho {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.hab-tela-nome {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.2;
+  text-shadow:
+    0 0 40px var(--accent-glow),
+    0 0 80px var(--accent-glow),
+    0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.hab-tela-descricao-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent-light);
+  padding: 2rem 2.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hab-tela-descricao {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 2.2;
+  letter-spacing: 0.05em;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+/* ── Sub-habilidades na tela cheia ── */
+.hab-tela-subs {
+  max-width: 700px;
+  margin: 2rem auto 0;
+}
+
+.hab-tela-sub-titulo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+}
+
+.hab-tela-sub-titulo::before,
+.hab-tela-sub-titulo::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.hab-sub-card {
+  border: 1px solid var(--border);
+  border-left: 2px solid color-mix(in srgb, var(--accent-light) 35%, transparent);
+  background: var(--bg-card);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 0.7rem;
+}
+
+.hab-sub-nome {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+
+.hab-sub-descricao {
+  font-family: 'Cinzel', serif;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.hab-tela-vazia {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+
 /* ── Responsivo ── */
 @media (max-width: 900px) {
   .ficha-layout {
@@ -108,18 +259,95 @@
   .ficha-imagem-panel {
     position: relative;
     top: 0;
-    height: 55vw;
-    max-height: 380px;
+    height: 62vw;
+    max-height: 420px;
     border-right: none;
     border-bottom: 1px solid var(--border);
   }
 
+  .ficha-imagem {
+    object-position: center 20%;
+  }
+
+  [data-theme="light"] .ficha-imagem {
+    object-position: center 8%;
+  }
+
   .ficha-imagem-vinheta {
     background:
-      linear-gradient(to bottom, transparent 50%, var(--bg) 100%);
+      linear-gradient(to bottom, var(--bg) 0%, transparent 12%, transparent 60%, var(--bg) 100%);
   }
 
   .ficha-conteudo {
+    padding: 1.5rem 1.8rem;
+  }
+
+  .ficha-edicao-container {
     padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tela-habilidade {
+    padding: 1.8rem;
+  }
+
+  .hab-voltar {
+    margin-bottom: 2rem;
+  }
+
+  .hab-tela-nome {
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+  }
+
+  .hab-tela-descricao-container {
+    padding: 1.5rem;
+  }
+
+  .hab-tela-descricao {
+    font-size: 0.88rem;
+    line-height: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .ficha-imagem-panel {
+    height: 70vw;
+    max-height: 320px;
+  }
+
+  .ficha-conteudo {
+    padding: 1.2rem 1rem;
+  }
+
+  .ficha-edicao-container {
+    padding: 1rem;
+  }
+
+  .edicao-titulo {
+    font-size: 1.1rem;
+    letter-spacing: 0.18em;
+  }
+
+  .tela-habilidade {
+    padding: 1.4rem 1rem;
+  }
+
+  .hab-voltar {
+    margin-bottom: 1.5rem;
+  }
+
+  .hab-tela-nome {
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hab-tela-cabecalho {
+    margin-bottom: 2rem;
+  }
+
+  .hab-tela-descricao-container {
+    padding: 1.2rem;
   }
 }
