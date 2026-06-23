@@ -167,6 +167,22 @@
     0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
+/* ── Imagem na tela de habilidade ── */
+.hab-tela-imagem-wrap {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+}
+
+.hab-tela-imagem {
+  max-width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+}
+
 .hab-tela-descricao-container {
   background: var(--bg-card);
   border: 1px solid var(--border);

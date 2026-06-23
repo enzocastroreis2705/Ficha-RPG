@@ -64,8 +64,15 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
 
   /* ── Habilidades ── */
   const adicionarHabilidade = () => {
-    const nova = { id: Date.now().toString(), nome: '', descricao: '', sub: [] }
+    const nova = { id: Date.now().toString(), nome: '', descricao: '', imagem: '', sub: [] }
     set('habilidades', [...(ficha.habilidades || []), nova])
+  }
+
+  const handleImagemHab = (habId, file) => {
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (e) => atualizarHabilidade(habId, 'imagem', e.target.result)
+    reader.readAsDataURL(file)
   }
 
   const atualizarHabilidade = (id, campo, valor) => {
@@ -221,6 +228,42 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
                     placeholder="Descreva a habilidade..."
                     rows={3}
                   />
+                </div>
+
+                {/* ── Imagem / GIF ── */}
+                <div className="form-group">
+                  <label>Imagem / GIF</label>
+                  {hab.imagem && (
+                    <div className="hab-imagem-preview-wrap">
+                      <img src={hab.imagem} alt="" className="hab-imagem-preview" />
+                    </div>
+                  )}
+                  <div className="hab-imagem-controles">
+                    <input
+                      type="text"
+                      className="hab-imagem-url"
+                      value={hab.imagem || ''}
+                      onChange={e => atualizarHabilidade(hab.id, 'imagem', e.target.value)}
+                      placeholder="https://... ou use o upload"
+                    />
+                    <label className="btn btn-ghost btn-sm hab-upload-btn" title="Enviar arquivo">
+                      ↑ Upload
+                      <input
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={e => handleImagemHab(hab.id, e.target.files[0])}
+                      />
+                    </label>
+                    {hab.imagem && (
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm"
+                        onClick={() => atualizarHabilidade(hab.id, 'imagem', '')}
+                        title="Remover imagem"
+                      >✕</button>
+                    )}
+                  </div>
                 </div>
 
                 {/* ── Sub-habilidades ── */}
