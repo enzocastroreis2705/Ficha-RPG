@@ -1,0 +1,269 @@
+.visualizacao-ficha {
+  padding: 1rem 0 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Cabeçalho ── */
+.ficha-cabecalho {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* Ornamentos de linha */
+.ornamento-topo,
+.ornamento-baixo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  color: var(--accent-light);
+}
+
+.ornamento-baixo {
+  margin-top: 1.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.orn-linha {
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent-light));
+}
+
+.ornamento-topo .orn-linha:last-child,
+.ornamento-baixo .orn-linha:last-child {
+  background: linear-gradient(to left, transparent, var(--accent-light));
+}
+
+.orn-linha-curta {
+  width: 24px;
+  height: 1px;
+  background: var(--accent-light);
+  opacity: 0.5;
+}
+
+.orn-diamante {
+  font-size: 1rem;
+  color: var(--accent-light);
+  text-shadow: 0 0 12px var(--accent-light);
+}
+
+.orn-floreio {
+  font-size: 0.5rem;
+  color: var(--accent-light);
+  opacity: 0.8;
+}
+
+/* ── Nome ── */
+.ficha-nome {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 0;
+  line-height: 1;
+  text-shadow:
+    0 0 40px var(--accent-glow),
+    0 0 80px var(--accent-glow),
+    0 2px 4px rgba(0, 0, 0, 0.9);
+  animation: nome-pulsa 5s ease-in-out infinite;
+}
+
+@keyframes nome-pulsa {
+  0%, 100% {
+    text-shadow:
+      0 0 30px var(--accent-glow),
+      0 0 70px var(--accent-glow),
+      0 2px 4px rgba(0,0,0,0.9);
+  }
+  50% {
+    text-shadow:
+      0 0 55px var(--accent-light),
+      0 0 120px var(--accent-glow),
+      0 2px 4px rgba(0,0,0,0.9);
+  }
+}
+
+/* ── Título/epíteto ── */
+.ficha-titulo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.25em;
+  font-style: italic;
+  margin: 0.8rem 0 0;
+}
+
+/* ── Tags ── */
+.ficha-tags {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.tag {
+  padding: 0.3rem 1rem;
+  border: 1px solid var(--border);
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0% 50%);
+  padding: 0.35rem 1.4rem;
+}
+
+.tag-nivel {
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+}
+
+/* ── Seção título (Atributos, Anotações) ── */
+.secao-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2.5rem 0 1.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.secao-orn {
+  font-size: 0.45rem;
+  color: var(--accent-light);
+  opacity: 0.8;
+}
+
+/* ── Grid de atributos ── */
+.atributos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.atributo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1.5rem 0.5rem 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  position: relative;
+  transition: all 0.4s ease;
+  cursor: default;
+}
+
+/* cantos góticos */
+.atributo-card::before,
+.atributo-card::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--accent-light);
+  border-style: solid;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.atributo-card::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+
+.atributo-card::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1px 1px 0;
+}
+
+.atributo-card:hover::before,
+.atributo-card:hover::after {
+  opacity: 1;
+}
+
+.atributo-card:hover {
+  border-color: color-mix(in srgb, var(--accent-light) 50%, transparent);
+  box-shadow:
+    0 0 20px var(--accent-glow),
+    inset 0 0 20px color-mix(in srgb, var(--accent-glow) 40%, transparent);
+  transform: translateY(-3px);
+}
+
+.atrib-abrev {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.atrib-valor {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.atrib-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ── Anotações ── */
+.ficha-anotacoes {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent-light);
+  padding: 1.5rem;
+}
+
+.ficha-anotacoes p {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 2;
+  white-space: pre-wrap;
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+
+.ficha-vazia-msg {
+  font-family: 'Cinzel', serif;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  margin-top: 4rem;
+  letter-spacing: 0.1em;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 600px) {
+  .ficha-nome {
+    font-size: 2.4rem;
+    letter-spacing: 0.12em;
+  }
+
+  .atributos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

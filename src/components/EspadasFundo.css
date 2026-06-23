@@ -1,0 +1,92 @@
+.espadas-fundo {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* ── Wrapper que anima a espada inteira ── */
+.espada-wrapper {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  transform: rotate(var(--rot));
+  opacity: var(--op);
+  animation: espada-flutua var(--dur) ease-in-out var(--delay) infinite;
+  /* centra o ponto de rotação no centro da espada */
+  transform-origin: center center;
+}
+
+@keyframes espada-flutua {
+  0%   { transform: rotate(var(--rot)) translateY(0);     opacity: calc(var(--op) * 0.5); }
+  50%  { transform: rotate(calc(var(--rot) + 8deg)) translateY(-18px); opacity: var(--op); }
+  100% { transform: rotate(var(--rot)) translateY(0);     opacity: calc(var(--op) * 0.5); }
+}
+
+/* ── Lâmina ── */
+.espada-blade {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 65%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accent-light) 30%,
+    #8ab4ff 60%,
+    transparent 100%
+  );
+  border-radius: 1px 1px 0 0;
+  box-shadow:
+    0 0 6px 1px var(--accent-light),
+    0 0 18px 3px var(--accent-glow);
+}
+
+/* ── Guarda (crossguard) ── */
+.espada-guard {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translateX(-50%);
+  width: calc(var(--size) * 0.22);
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--accent-light),
+    #8ab4ff,
+    var(--accent-light),
+    transparent
+  );
+  box-shadow:
+    0 0 6px 1px var(--accent-light),
+    0 0 14px 2px var(--accent-glow);
+}
+
+/* ── Cabo (hilt) ── */
+.espada-hilt {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 30%;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-light),
+    var(--accent),
+    transparent
+  );
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 0 4px 1px var(--accent-glow);
+}
+
+/* ── Tema claro: espadas mais escuras pra contrastar ── */
+[data-theme="light"] .espada-blade,
+[data-theme="light"] .espada-guard,
+[data-theme="light"] .espada-hilt {
+  filter: brightness(0.75) saturate(1.4);
+}

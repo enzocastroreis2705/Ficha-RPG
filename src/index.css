@@ -1,0 +1,96 @@
+/* ── Fonte Gótica ── */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&display=swap');
+
+/* ── Tema Vergil: Dark (padrão) ── */
+:root,
+[data-theme="dark"] {
+  --bg:           #03030c;
+  --bg-secondary: #07071a;
+  --bg-card:      #0b0b20;
+  --accent:       #0d2159;
+  --accent-light: #3a6fd8;
+  --accent-glow:  rgba(58, 111, 216, 0.2);
+  --text:         #dce8ff;
+  --text-muted:   #6a80a8;
+  --border:       #141e3a;
+  --silver:       #8ea8cc;
+  --shadow:       0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Tema Claro ── */
+[data-theme="light"] {
+  --bg:           #eef2ff;
+  --bg-secondary: #dde4f8;
+  --bg-card:      #ffffff;
+  --accent:       #0d2159;
+  --accent-light: #2a52b8;
+  --accent-glow:  rgba(42, 82, 184, 0.15);
+  --text:         #07091e;
+  --text-muted:   #4a5a88;
+  --border:       #c0cce8;
+  --silver:       #5a6a98;
+  --shadow:       0 4px 24px rgba(13, 33, 89, 0.12);
+}
+
+/* ── Reset e base ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Cinzel', 'Georgia', serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s, color 0.3s;
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--accent-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--text);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-light);
+}

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5174/)",
+      "Bash(chromium-cli --no-sandbox --headless --screenshot=/tmp/ficha-rpg.png \"http://localhost:5174\")",
+      "Bash(/snap/bin/chromium --headless --disable-gpu --screenshot=/tmp/ficha-rpg.png \"http://localhost:5174\")",
+      "Bash(sleep 3 && ls -la /tmp/ficha-rpg.png 2>&1 || echo \"Screenshot não criada ainda\")",
+      "Read(//tmp/**)"
+    ]
+  }
+}
