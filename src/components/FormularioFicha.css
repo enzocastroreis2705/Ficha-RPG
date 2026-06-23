@@ -212,6 +212,39 @@
   color: var(--accent-light);
 }
 
+/* ── Imagem da habilidade (formulário) ── */
+.hab-imagem-preview-wrap {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.hab-imagem-preview {
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.hab-imagem-controles {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.hab-imagem-url {
+  flex: 1;
+  font-size: 0.78rem !important;
+}
+
+.hab-upload-btn {
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
 /* ── Sub-habilidades ── */
 .sub-hab-section {
   margin-top: 1.2rem;

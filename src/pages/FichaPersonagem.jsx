@@ -37,6 +37,12 @@ function TelaHabilidade({ hab, onVoltar }) {
           </div>
         </div>
 
+        {hab.imagem && (
+          <div className="hab-tela-imagem-wrap">
+            <img src={hab.imagem} alt={hab.nome} className="hab-tela-imagem" />
+          </div>
+        )}
+
         {hab.descricao ? (
           <div className="hab-tela-descricao-container">
             <p className="hab-tela-descricao">{hab.descricao}</p>
