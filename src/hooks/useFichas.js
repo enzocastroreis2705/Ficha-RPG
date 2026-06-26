@@ -1,58 +1,64 @@
 import { useState, useEffect } from 'react'
-
-const STORAGE_KEY = 'rpg_fichas'
+import { api } from '../services/api'
 
 export function useFichas() {
   const [fichas, setFichas] = useState([])
   const [carregando, setCarregando] = useState(true)
+  const [erro, setErro] = useState(null)
+
+  const token = localStorage.getItem('rpg_token')
 
   useEffect(() => {
-    const fichasSalvas = localStorage.getItem(STORAGE_KEY)
-    if (fichasSalvas) {
-      setFichas(JSON.parse(fichasSalvas))
+    if (!token) {
+      // Fallback offline: lê do localStorage
+      const salvas = localStorage.getItem('rpg_fichas')
+      if (salvas) setFichas(JSON.parse(salvas))
+      setCarregando(false)
+      return
     }
-    setCarregando(false)
-  }, [])
 
-  const salvarFichas = (novasFichas) => {
-    setFichas(novasFichas)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(novasFichas))
-  }
+    api.listarFichas()
+      .then(setFichas)
+      .catch(e => setErro(e.message))
+      .finally(() => setCarregando(false))
+  }, [token])
 
-  const criarFicha = (dados) => {
-    const novaFicha = {
-      id: Date.now().toString(),
-      ...dados,
-      dataCriacao: new Date().toLocaleDateString('pt-BR')
+  const criarFicha = async (dados) => {
+    if (!token) {
+      const nova = { id: Date.now().toString(), ...dados, dataCriacao: new Date().toLocaleDateString('pt-BR') }
+      const novas = [...fichas, nova]
+      setFichas(novas)
+      localStorage.setItem('rpg_fichas', JSON.stringify(novas))
+      return nova
     }
-    const novasFichas = [...fichas, novaFicha]
-    salvarFichas(novasFichas)
-    return novaFicha
+    const nova = await api.criarFicha(dados)
+    setFichas(prev => [...prev, nova])
+    return nova
   }
 
-  const atualizarFicha = (id, dados) => {
-    const novasFichas = fichas.map(ficha =>
-      ficha.id === id ? { ...ficha, ...dados } : ficha
-    )
-    salvarFichas(novasFichas)
+  const atualizarFicha = async (id, dados) => {
+    if (!token) {
+      const novas = fichas.map(f => f.id === id ? { ...f, ...dados } : f)
+      setFichas(novas)
+      localStorage.setItem('rpg_fichas', JSON.stringify(novas))
+      return
+    }
+    const atualizada = await api.atualizarFicha(id, dados)
+    setFichas(prev => prev.map(f => f.id === id ? atualizada : f))
   }
 
-  const deletarFicha = (id) => {
-    const novasFichas = fichas.filter(ficha => ficha.id !== id)
-    salvarFichas(novasFichas)
+  const deletarFicha = async (id) => {
+    if (!token) {
+      const novas = fichas.filter(f => f.id !== id)
+      setFichas(novas)
+      localStorage.setItem('rpg_fichas', JSON.stringify(novas))
+      return
+    }
+    await api.deletarFicha(id)
+    setFichas(prev => prev.filter(f => f.id !== id))
   }
 
-  const obterFicha = (id) => {
-    return fichas.find(ficha => ficha.id === id)
-  }
+  const obterFicha = (id) => fichas.find(f => String(f.id) === String(id))
 
-  return {
-    fichas,
-    carregando,
-    criarFicha,
-    atualizarFicha,
-    deletarFicha,
-    obterFicha,
-    salvarFichas
-  }
+  return { fichas, carregando, erro, criarFicha, atualizarFicha, deletarFicha, obterFicha }
 }

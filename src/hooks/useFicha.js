@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-
-const STORAGE_KEY = 'rpg_ficha_vergil'
+import { api } from '../services/api'
 
 const fichaInicial = {
   nome: 'Abismo',
@@ -52,26 +51,74 @@ export function aplicarCores(cores = {}) {
   })
 }
 
+// Persiste o ID da ficha ativa do usuário no localStorage para não perder entre reloads
+const FICHA_ID_KEY = 'rpg_ficha_ativa_id'
+
 export function useFicha() {
   const [ficha, setFicha] = useState(fichaInicial)
+  const [fichaId, setFichaId] = useState(null)
   const [carregando, setCarregando] = useState(true)
+  const [erro, setErro] = useState(null)
 
   useEffect(() => {
-    const salva = localStorage.getItem(STORAGE_KEY)
-    if (salva) {
-      const dados = JSON.parse(salva)
-      setFicha({ ...fichaInicial, ...dados })
-      aplicarCores(dados.cores)
+    const token = localStorage.getItem('rpg_token')
+
+    if (!token) {
+      // Sem auth: fallback para localStorage (modo offline)
+      const salva = localStorage.getItem('rpg_ficha_vergil')
+      if (salva) {
+        const dados = JSON.parse(salva)
+        setFicha({ ...fichaInicial, ...dados })
+        aplicarCores(dados.cores)
+      }
+      setCarregando(false)
+      return
     }
-    setCarregando(false)
+
+    async function carregar() {
+      try {
+        const fichas = await api.listarFichas()
+        if (fichas.length > 0) {
+          // Tenta usar a ficha ativa salva, senão pega a primeira
+          const idSalvo = localStorage.getItem(FICHA_ID_KEY)
+          const ativa = fichas.find(f => String(f.id) === idSalvo) || fichas[0]
+          setFichaId(ativa.id)
+          setFicha({ ...fichaInicial, ...ativa })
+          aplicarCores(ativa.cores)
+        }
+      } catch (e) {
+        setErro(e.message)
+      } finally {
+        setCarregando(false)
+      }
+    }
+
+    carregar()
   }, [])
 
-  const salvarFicha = (dados) => {
+  const salvarFicha = async (dados) => {
     const atualizada = { ...ficha, ...dados }
     setFicha(atualizada)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(atualizada))
     aplicarCores(atualizada.cores)
+
+    const token = localStorage.getItem('rpg_token')
+    if (!token) {
+      localStorage.setItem('rpg_ficha_vergil', JSON.stringify(atualizada))
+      return
+    }
+
+    try {
+      if (fichaId) {
+        await api.atualizarFicha(fichaId, atualizada)
+      } else {
+        const criada = await api.criarFicha(atualizada)
+        setFichaId(criada.id)
+        localStorage.setItem(FICHA_ID_KEY, String(criada.id))
+      }
+    } catch (e) {
+      setErro(e.message)
+    }
   }
 
-  return { ficha, carregando, salvarFicha }
+  return { ficha, carregando, erro, salvarFicha }
 }
