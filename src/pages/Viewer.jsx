@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { aplicarCores } from '../hooks/useFicha'
 import { useTema } from '../context/ThemeContext'
@@ -60,42 +60,32 @@ export default function Viewer() {
   const { fichaId } = useParams()
   const { tema } = useTema()
   const [ficha, setFicha] = useState(null)
-  const [status, setStatus] = useState('conectando')
+  const [status, setStatus] = useState('carregando')
   const [habAberta, setHabAberta] = useState(null)
-  const wsRef = useRef(null)
 
   const vergilImg = tema === 'light' ? vergilLight : vergilDark
 
-  const conectar = useCallback(() => {
-    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const ws = new WebSocket(`${proto}//${location.host}/ws/ficha/${fichaId}`)
-    wsRef.current = ws
-
-    ws.onopen = () => setStatus('online')
-
-    ws.onmessage = (e) => {
-      const dados = JSON.parse(e.data)
+  const buscarFicha = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/fichas/public/${fichaId}`)
+      if (!res.ok) {
+        setStatus('nao-encontrada')
+        return
+      }
+      const dados = await res.json()
       setFicha(dados)
       aplicarCores(dados.cores)
-    }
-
-    ws.onclose = (e) => {
+      setStatus('online')
+    } catch {
       setStatus('offline')
-      // Reconecta após 3s se não foi fechamento intencional
-      if (e.code !== 1000 && e.code !== 4004) {
-        setTimeout(conectar, 3000)
-      }
     }
-
-    ws.onerror = () => setStatus('offline')
   }, [fichaId])
 
   useEffect(() => {
-    conectar()
-    return () => {
-      wsRef.current?.close(1000)
-    }
-  }, [conectar])
+    buscarFicha()
+    const intervalo = setInterval(buscarFicha, 5000)
+    return () => clearInterval(intervalo)
+  }, [buscarFicha])
 
   if (habAberta) {
     return <TelaHabilidade hab={habAberta} onVoltar={() => setHabAberta(null)} />
@@ -105,7 +95,9 @@ export default function Viewer() {
     <div className="viewer-wrapper">
       {!ficha ? (
         <div className="viewer-aguardando">
-          {status === 'offline' ? 'Ficha não encontrada ou servidor indisponível.' : 'Carregando ficha...'}
+          {status === 'nao-encontrada' || status === 'offline'
+            ? 'Ficha não encontrada ou servidor indisponível.'
+            : 'Carregando ficha...'}
         </div>
       ) : (
         <div className="ficha-layout transicao-fade">

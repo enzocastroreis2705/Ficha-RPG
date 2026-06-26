@@ -1,11 +1,10 @@
 import json
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 import models
 import schemas
 import auth as auth_utils
-from ws_manager import manager
 
 router = APIRouter(prefix="/fichas", tags=["fichas"])
 
@@ -17,19 +16,25 @@ def _parse(ficha: models.Ficha) -> schemas.FichaResponse:
     return schemas.FichaResponse.model_validate(ficha)
 
 
+@router.get("/public", response_model=list[schemas.FichaResponse])
+def listar_publico(db: Session = Depends(get_db)):
+    return [_parse(f) for f in db.query(models.Ficha).all()]
+
+
+@router.get("/public/{ficha_id}", response_model=schemas.FichaResponse)
+def obter_publico(ficha_id: int, db: Session = Depends(get_db)):
+    ficha = db.query(models.Ficha).filter(models.Ficha.id == ficha_id).first()
+    if not ficha:
+        raise HTTPException(status_code=404, detail="Ficha não encontrada")
+    return _parse(ficha)
+
+
 @router.get("/", response_model=list[schemas.FichaResponse])
 def listar(
     current_user: models.User = Depends(auth_utils.get_current_user),
     db: Session = Depends(get_db),
 ):
-    fichas = db.query(models.Ficha).filter(models.Ficha.user_id == current_user.id).all()
-    return [_parse(f) for f in fichas]
-
-
-@router.get("/public", response_model=list[schemas.FichaResponse])
-def listar_publico(db: Session = Depends(get_db)):
-    fichas = db.query(models.Ficha).all()
-    return [_parse(f) for f in fichas]
+    return [_parse(f) for f in db.query(models.Ficha).filter(models.Ficha.user_id == current_user.id).all()]
 
 
 @router.post("/", response_model=schemas.FichaResponse, status_code=201)
@@ -69,7 +74,7 @@ def obter(
 
 
 @router.put("/{ficha_id}", response_model=schemas.FichaResponse)
-async def atualizar(
+def atualizar(
     ficha_id: int,
     body: schemas.FichaUpdate,
     current_user: models.User = Depends(auth_utils.get_current_user),
@@ -97,9 +102,7 @@ async def atualizar(
 
     db.commit()
     db.refresh(ficha)
-    result = _parse(ficha)
-    await manager.broadcast(ficha_id, result.model_dump(mode="json"))
-    return result
+    return _parse(ficha)
 
 
 @router.delete("/{ficha_id}", status_code=204)
