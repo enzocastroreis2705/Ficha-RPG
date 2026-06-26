@@ -5,6 +5,7 @@ from database import get_db
 import models
 import schemas
 import auth as auth_utils
+from ws_manager import manager
 
 router = APIRouter(prefix="/fichas", tags=["fichas"])
 
@@ -62,7 +63,7 @@ def obter(
 
 
 @router.put("/{ficha_id}", response_model=schemas.FichaResponse)
-def atualizar(
+async def atualizar(
     ficha_id: int,
     body: schemas.FichaUpdate,
     current_user: models.User = Depends(auth_utils.get_current_user),
@@ -90,7 +91,9 @@ def atualizar(
 
     db.commit()
     db.refresh(ficha)
-    return _parse(ficha)
+    result = _parse(ficha)
+    await manager.broadcast(ficha_id, result.model_dump(mode="json"))
+    return result
 
 
 @router.delete("/{ficha_id}", status_code=204)

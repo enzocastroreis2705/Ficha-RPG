@@ -1,0 +1,266 @@
+/* ── Contentor de tela cheia ── */
+.auth-tela {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* fundo sutil radiante */
+.auth-tela::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 40%, var(--accent-glow), transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Card ── */
+.auth-card {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--accent-light);
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* ── Ornamento de topo ── */
+.auth-ornamento {
+  text-align: center;
+  font-size: 1rem;
+  letter-spacing: 0.8em;
+  color: var(--accent-light);
+  margin-bottom: 1.8rem;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+/* ── Títulos ── */
+.auth-card h1 {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.4rem;
+}
+
+.auth-subtitulo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* ── Divisor ── */
+.auth-divisor {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  color: var(--accent-light);
+  font-size: 0.8rem;
+}
+.auth-divisor::before,
+.auth-divisor::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Formulário ── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.auth-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.auth-grupo label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.auth-grupo input {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  color: var(--text);
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.auth-grupo input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.auth-grupo input:focus {
+  border-color: var(--accent-light);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.auth-grupo input.campo-erro {
+  border-color: #e05555;
+}
+
+.auth-erro-texto {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: #e05555;
+}
+
+/* ── Alerta global ── */
+.auth-alerta {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.8rem 1rem;
+  border-left: 2px solid;
+  margin-bottom: 1.5rem;
+}
+.auth-alerta.erro {
+  background: rgba(224, 85, 85, 0.08);
+  border-color: #e05555;
+  color: #e05555;
+}
+
+/* ── Botão de submit ── */
+.auth-btn-submit {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.9rem 1.4rem;
+  background: var(--accent-light);
+  color: #fff;
+  border: 1px solid var(--accent-light);
+  border-radius: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.auth-btn-submit:hover:not(:disabled) {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+.auth-btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Rodapé / link secundário ── */
+.auth-rodape {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-align: center;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 1.8rem;
+}
+
+.auth-rodape a,
+.auth-rodape button.link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--accent-light);
+  font-family: 'Cinzel', serif;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  padding: 0;
+  transition: color 0.2s;
+}
+.auth-rodape a:hover,
+.auth-rodape button.link:hover {
+  color: var(--text);
+}
+
+/* ── Voltar (inline nos modos de Entrada) ── */
+.auth-voltar {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+.auth-voltar:hover { color: var(--accent-light); }
+
+/* ── Pergunta (Entrada) ── */
+.auth-pergunta-titulo {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.auth-pergunta-desc {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  line-height: 2;
+}
+
+.auth-pergunta-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 2rem 1.5rem;
+  }
+  .auth-card h1 {
+    font-size: 1.05rem;
+  }
+}
