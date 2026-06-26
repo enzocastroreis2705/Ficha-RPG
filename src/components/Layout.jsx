@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import ToggleTema from './ToggleTema'
 import EspadasFundo from './EspadasFundo'
 
 export default function Layout({ children, mostrarSair = true }) {
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -15,10 +17,12 @@ export default function Layout({ children, mostrarSair = true }) {
         </div>
         <div className="navbar-acoes">
           <ToggleTema />
-          {mostrarSair && user && (
-            <button className="btn btn-ghost btn-sm" onClick={logout}>
-              Sair
-            </button>
+          {user ? (
+            mostrarSair && (
+              <button className="btn btn-ghost btn-sm" onClick={logout}>Sair</button>
+            )
+          ) : (
+            <button className="btn btn-ghost btn-sm" onClick={() => navigate('/login')}>Login</button>
           )}
         </div>
       </nav>

@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import Layout from './components/Layout'
 import FichaPersonagem from './pages/FichaPersonagem'
@@ -6,11 +7,34 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Entrada from './pages/Entrada'
 import './App.css'
+import './styles/auth.css'
 
-function RotaProtegida({ children }) {
+function RaizRedirect() {
   const { user, carregando } = useAuth()
+  const navigate = useNavigate()
+  const [erro, setErro] = useState(null)
+
+  useEffect(() => {
+    if (carregando || user) return
+    fetch('/api/fichas/public')
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then(fichas => {
+        if (fichas.length > 0) {
+          navigate(`/ver/${fichas[0].id}`, { replace: true })
+        } else {
+          setErro('Nenhuma ficha encontrada.')
+        }
+      })
+      .catch(() => setErro('Não foi possível conectar ao servidor. Verifique se o backend está rodando.'))
+  }, [carregando, user, navigate])
+
   if (carregando) return <div className="carregando">Invocando...</div>
-  return user ? children : <Navigate to="/login" replace />
+  if (user) return <Layout><FichaPersonagem /></Layout>
+  if (erro) return <div className="carregando">{erro}</div>
+  return <div className="carregando">Carregando ficha...</div>
 }
 
 function RotaPublica({ children }) {
@@ -22,23 +46,11 @@ function RotaPublica({ children }) {
 function App() {
   return (
     <Routes>
-      {/* Auth — sem navbar */}
-      <Route path="/login"    element={<RotaPublica><Login /></RotaPublica>} />
-      <Route path="/registro" element={<RotaPublica><Register /></RotaPublica>} />
-
-      {/* Viewer com tela de entrada — gerencia seu próprio layout */}
+      <Route path="/login"       element={<RotaPublica><Login /></RotaPublica>} />
+      <Route path="/registro"    element={<RotaPublica><Register /></RotaPublica>} />
       <Route path="/ver/:fichaId" element={<Entrada />} />
-
-      {/* Editor — protegido */}
-      <Route path="/" element={
-        <RotaProtegida>
-          <Layout>
-            <FichaPersonagem />
-          </Layout>
-        </RotaProtegida>
-      } />
-
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/"            element={<RaizRedirect />} />
+      <Route path="*"            element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

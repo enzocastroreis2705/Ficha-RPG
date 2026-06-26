@@ -1,0 +1,22 @@
+.criar-ficha-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.criar-ficha-container h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .criar-ficha-container {
+    padding: 1rem;
+  }
+
+  .criar-ficha-container h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,22 @@
+.editar-ficha-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.editar-ficha-container h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .editar-ficha-container {
+    padding: 1rem;
+  }
+
+  .editar-ficha-container h1 {
+    font-size: 1.5rem;
+  }
+}

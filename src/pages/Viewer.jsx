@@ -56,21 +56,6 @@ function TelaHabilidade({ hab, onVoltar }) {
   )
 }
 
-function StatusIndicador({ status }) {
-  const config = {
-    conectando: { cor: '#f59e0b', texto: 'Conectando...' },
-    online:     { cor: '#10b981', texto: 'Ao vivo' },
-    offline:    { cor: '#ef4444', texto: 'Desconectado' },
-  }
-  const { cor, texto } = config[status] || config.offline
-  return (
-    <div className="viewer-status">
-      <span className="viewer-status-dot" style={{ background: cor }} />
-      <span className="viewer-status-texto">{texto}</span>
-    </div>
-  )
-}
-
 export default function Viewer() {
   const { fichaId } = useParams()
   const { tema } = useTema()
@@ -118,8 +103,6 @@ export default function Viewer() {
 
   return (
     <div className="viewer-wrapper">
-      <StatusIndicador status={status} />
-
       {!ficha ? (
         <div className="viewer-aguardando">
           {status === 'offline' ? 'Ficha não encontrada ou servidor indisponível.' : 'Carregando ficha...'}
