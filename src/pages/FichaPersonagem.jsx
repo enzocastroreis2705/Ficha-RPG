@@ -72,10 +72,18 @@ function TelaHabilidade({ hab, onVoltar }) {
 }
 
 function FichaPersonagem() {
-  const { ficha, carregando, salvarFicha } = useFicha()
+  const { ficha, fichaId, carregando, salvarFicha } = useFicha()
   const { tema } = useTema()
   const [editando, setEditando] = useState(false)
   const [habAberta, setHabAberta] = useState(null)
+  const [copiado, setCopiado] = useState(false)
+
+  const compartilhar = () => {
+    const url = `${location.origin}/ver/${fichaId}`
+    navigator.clipboard.writeText(url)
+    setCopiado(true)
+    setTimeout(() => setCopiado(false), 2000)
+  }
 
   const vergilImg = tema === 'light' ? vergilLight : vergilDark
 
@@ -129,6 +137,11 @@ function FichaPersonagem() {
           <button className="btn btn-ghost btn-editar" onClick={() => setEditando(true)}>
             ✦ Editar
           </button>
+          {fichaId && (
+            <button className="btn btn-ghost btn-editar" onClick={compartilhar}>
+              {copiado ? '✓ Link copiado!' : '⬡ Compartilhar'}
+            </button>
+          )}
         </div>
         <VisualizacaoFicha ficha={ficha} onAbrirHabilidade={setHabAberta} />
       </section>

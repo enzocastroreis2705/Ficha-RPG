@@ -120,5 +120,5 @@ export function useFicha() {
     }
   }
 
-  return { ficha, carregando, erro, salvarFicha }
+  return { ficha, fichaId, carregando, erro, salvarFicha }
 }

@@ -1,0 +1,43 @@
+.viewer-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
+.viewer-status {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-card, rgba(0, 0, 0, 0.6));
+  border: 1px solid var(--border, rgba(255,255,255,0.1));
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--text-muted, #aaa);
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.viewer-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.viewer-aguardando {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--text-muted, #aaa);
+  font-size: 1.1rem;
+}

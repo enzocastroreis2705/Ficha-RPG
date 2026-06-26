@@ -1,29 +1,45 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useAuth } from './context/AuthContext'
+import Layout from './components/Layout'
 import FichaPersonagem from './pages/FichaPersonagem'
-import ToggleTema from './components/ToggleTema'
-import EspadasFundo from './components/EspadasFundo'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Entrada from './pages/Entrada'
 import './App.css'
+
+function RotaProtegida({ children }) {
+  const { user, carregando } = useAuth()
+  if (carregando) return <div className="carregando">Invocando...</div>
+  return user ? children : <Navigate to="/login" replace />
+}
+
+function RotaPublica({ children }) {
+  const { user, carregando } = useAuth()
+  if (carregando) return <div className="carregando">Invocando...</div>
+  return user ? <Navigate to="/" replace /> : children
+}
 
 function App() {
   return (
-    <>
-      <EspadasFundo />
-      <nav className="navbar">
-        <div className="navbar-logo">
-          <span className="logo-yamato">⚔</span>
-          <span className="logo-titulo">FICHA DE PERSONAGEM</span>
-        </div>
-        <div className="navbar-acoes">
-          <ToggleTema />
-        </div>
-      </nav>
+    <Routes>
+      {/* Auth — sem navbar */}
+      <Route path="/login"    element={<RotaPublica><Login /></RotaPublica>} />
+      <Route path="/registro" element={<RotaPublica><Register /></RotaPublica>} />
 
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<FichaPersonagem />} />
-        </Routes>
-      </main>
-    </>
+      {/* Viewer com tela de entrada — gerencia seu próprio layout */}
+      <Route path="/ver/:fichaId" element={<Entrada />} />
+
+      {/* Editor — protegido */}
+      <Route path="/" element={
+        <RotaProtegida>
+          <Layout>
+            <FichaPersonagem />
+          </Layout>
+        </RotaProtegida>
+      } />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }
 
