@@ -26,6 +26,12 @@ def listar(
     return [_parse(f) for f in fichas]
 
 
+@router.get("/public", response_model=list[schemas.FichaResponse])
+def listar_publico(db: Session = Depends(get_db)):
+    fichas = db.query(models.Ficha).all()
+    return [_parse(f) for f in fichas]
+
+
 @router.post("/", response_model=schemas.FichaResponse, status_code=201)
 def criar(
     body: schemas.FichaCreate,

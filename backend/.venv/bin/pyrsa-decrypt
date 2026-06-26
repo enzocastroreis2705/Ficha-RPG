@@ -1,8 +1,6 @@
-#!/home/dpe-robo/CURSO_REACT/react-curso/backend/.venv/bin/python3
-# -*- coding: utf-8 -*-
-import re
+#!/home/enzoreis/React-Projeto/Ficha-RPG/backend/.venv/bin/python3
 import sys
 from rsa.cli import decrypt
 if __name__ == '__main__':
-    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
     sys.exit(decrypt())
