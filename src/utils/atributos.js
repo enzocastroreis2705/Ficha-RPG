@@ -9,9 +9,8 @@ export function valorComBuff(base, buffPercent) {
 }
 
 export function calcularReikiTotal(atributos = {}) {
-  const buffs = atributos.buffs || {}
   return CHAVES_ATRIBUTOS.reduce(
-    (soma, key) => soma + valorComBuff(atributos[key], buffs[key]),
+    (soma, key) => soma + (Number(atributos[key]) || 0),
     0
   )
 }
