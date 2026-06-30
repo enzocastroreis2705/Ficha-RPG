@@ -271,6 +271,16 @@
   text-shadow: 0 0 20px var(--accent-glow);
 }
 
+.atrib-card-buff {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 0.35rem;
+  opacity: 0.85;
+}
+
 /* ── Anotações ── */
 .ficha-anotacoes {
   background: var(--bg-card);
