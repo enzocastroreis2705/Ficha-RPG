@@ -98,7 +98,7 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
 
   /* ── Sub-habilidades ── */
   const adicionarSub = (habId) => {
-    const nova = { id: Date.now().toString(), nome: '', descricao: '' }
+    const nova = { id: Date.now().toString(), nome: '', descricao: '', imagem: '' }
     set('habilidades', ficha.habilidades.map(h =>
       h.id === habId ? { ...h, sub: [...(h.sub || []), nova] } : h
     ))
@@ -110,6 +110,13 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
         ? { ...h, sub: (h.sub || []).map(s => s.id === subId ? { ...s, [campo]: valor } : s) }
         : h
     ))
+  }
+
+  const handleImagemSub = (habId, subId, file) => {
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (e) => atualizarSub(habId, subId, 'imagem', e.target.result)
+    reader.readAsDataURL(file)
   }
 
   const removerSub = (habId, subId) => {
@@ -347,6 +354,42 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
                               placeholder="Descreva a sub-habilidade..."
                               rows={2}
                             />
+                          </div>
+
+                          {/* ── Imagem / GIF da sub-habilidade ── */}
+                          <div className="form-group">
+                            <label>Imagem / GIF</label>
+                            {sub.imagem && (
+                              <div className="hab-imagem-preview-wrap">
+                                <img src={sub.imagem} alt="" className="hab-imagem-preview" />
+                              </div>
+                            )}
+                            <div className="hab-imagem-controles">
+                              <input
+                                type="text"
+                                className="hab-imagem-url"
+                                value={sub.imagem || ''}
+                                onChange={e => atualizarSub(hab.id, sub.id, 'imagem', e.target.value)}
+                                placeholder="https://... ou use o upload"
+                              />
+                              <label className="btn btn-ghost btn-sm hab-upload-btn" title="Enviar arquivo">
+                                ↑ Upload
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  style={{ display: 'none' }}
+                                  onChange={e => handleImagemSub(hab.id, sub.id, e.target.files[0])}
+                                />
+                              </label>
+                              {sub.imagem && (
+                                <button
+                                  type="button"
+                                  className="btn btn-danger btn-sm"
+                                  onClick={() => atualizarSub(hab.id, sub.id, 'imagem', '')}
+                                  title="Remover imagem"
+                                >✕</button>
+                              )}
+                            </div>
                           </div>
                         </div>
                       ))}
