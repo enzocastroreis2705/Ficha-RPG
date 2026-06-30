@@ -190,22 +190,21 @@
 }
 
 .hab-tela-descricao-container {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 2px solid var(--accent-light);
-  padding: 2rem 2.5rem;
   max-width: 700px;
   margin: 0 auto;
+  padding: 0 0.5rem;
 }
 
 .hab-tela-descricao {
   font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 2.2;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 2;
   letter-spacing: 0.05em;
   white-space: pre-wrap;
   margin: 0;
+  text-shadow: 0 0 24px var(--accent-glow), 0 2px 6px rgba(0, 0, 0, 0.85);
 }
 
 /* ── Sub-habilidades na tela cheia ── */
@@ -349,12 +348,12 @@
   }
 
   .hab-tela-descricao-container {
-    padding: 1.5rem;
+    padding: 0;
   }
 
   .hab-tela-descricao {
-    font-size: 0.88rem;
-    line-height: 2;
+    font-size: 1rem;
+    line-height: 1.9;
   }
 
   .hab-tela-imagem {
