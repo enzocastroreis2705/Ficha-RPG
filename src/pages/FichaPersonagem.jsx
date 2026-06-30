@@ -60,6 +60,11 @@ function TelaHabilidade({ hab, onVoltar }) {
             </div>
             {hab.sub.map(sub => (
               <div key={sub.id} className="hab-sub-card">
+                {sub.imagem && (
+                  <div className="hab-sub-imagem-wrap">
+                    <img src={sub.imagem} alt={sub.nome} className="hab-sub-imagem" />
+                  </div>
+                )}
                 <h3 className="hab-sub-nome">↳ {sub.nome}</h3>
                 {sub.descricao && (
                   <p className="hab-sub-descricao">{sub.descricao}</p>
