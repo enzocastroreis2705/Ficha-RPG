@@ -108,14 +108,20 @@
 
 .atrib-form-linha {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 0.5rem 1rem;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.6rem 1rem;
   border-bottom: 1px solid var(--border);
 }
 
 .atrib-form-linha:last-child {
   border-bottom: none;
+}
+
+.atrib-form-topo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .atrib-form-linha label {
@@ -129,8 +135,9 @@
   margin: 0;
 }
 
-.atrib-form-linha input {
+.atrib-form-topo input {
   flex: 1;
+  width: auto;
   padding: 0.55rem 0.8rem !important;
   text-align: right;
   font-size: 1rem !important;
@@ -139,11 +146,78 @@
   border-bottom: 1px solid var(--border) !important;
   background: transparent !important;
   box-shadow: none !important;
+  color: var(--text) !important;
 }
 
-.atrib-form-linha input:focus {
+.atrib-form-topo input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.atrib-form-topo input:focus {
   border-bottom-color: var(--accent-light) !important;
   box-shadow: none !important;
+}
+
+/* ── Buff por atributo ── */
+.atrib-form-buff-linha {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-left: calc(130px + 1.5rem);
+}
+
+.atrib-buff-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.atrib-buff-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.atrib-form-buff-linha .atrib-input-buff {
+  width: 56px;
+  flex: none;
+  padding: 0.4rem 0.5rem !important;
+  text-align: right;
+  font-size: 0.85rem !important;
+  font-weight: 700;
+  border: 1px solid var(--border) !important;
+  border-bottom-width: 1px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--accent-light) !important;
+}
+
+.atrib-form-buff-linha .atrib-input-buff:focus {
+  border-color: var(--accent-light) !important;
+}
+
+.atrib-buff-simbolo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.atrib-form-final {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: auto;
+  text-shadow: 0 0 12px var(--accent-glow);
 }
 
 /* ── Reiki calculado ── */
@@ -388,5 +462,9 @@
 
   .atrib-form-linha label {
     min-width: 100px;
+  }
+
+  .atrib-form-buff-linha {
+    padding-left: 0;
   }
 }

@@ -1,3 +1,4 @@
+import { valorComBuff, calcularReikiTotal } from '../utils/atributos'
 import './VisualizacaoFicha.css'
 
 const CATEGORIAS = [
@@ -32,10 +33,6 @@ const CATEGORIAS = [
 
 function formatarNumero(n) {
   return (Number(n) || 0).toLocaleString('pt-BR')
-}
-
-function calcularReiki(atributos) {
-  return Object.values(atributos || {}).reduce((s, v) => s + (Number(v) || 0), 0)
 }
 
 function DivisorGotico({ texto }) {
@@ -85,7 +82,7 @@ function VisualizacaoFicha({ ficha, onAbrirHabilidade }) {
             <div className="reiki-container">
               <span className="reiki-label">Reiki</span>
               <span className="reiki-valor">
-                {formatarNumero(calcularReiki(ficha.atributos))}
+                {formatarNumero(calcularReikiTotal(ficha.atributos))}
               </span>
             </div>
           </div>
@@ -101,15 +98,25 @@ function VisualizacaoFicha({ ficha, onAbrirHabilidade }) {
                   <span className="atrib-cat-label">{cat.label}</span>
                 </div>
                 <div className="atrib-cards-grid">
-                  {cat.atributos.map(({ key, label }) => (
-                    <div key={key} className="atrib-card">
-                      <span className="atrib-card-nome">{label}</span>
-                      <div className="atrib-card-divisor" />
-                      <span className="atrib-card-valor">
-                        {formatarNumero(ficha.atributos?.[key] ?? 0)}
-                      </span>
-                    </div>
-                  ))}
+                  {cat.atributos.map(({ key, label }) => {
+                    const base = ficha.atributos?.[key] ?? 0
+                    const buff = ficha.atributos?.buffs?.[key] ?? 0
+                    const final = valorComBuff(base, buff)
+                    return (
+                      <div key={key} className="atrib-card">
+                        <span className="atrib-card-nome">{label}</span>
+                        <div className="atrib-card-divisor" />
+                        <span className="atrib-card-valor">
+                          {formatarNumero(final)}
+                        </span>
+                        {buff !== 0 && (
+                          <span className="atrib-card-buff">
+                            {formatarNumero(base)} {buff > 0 ? '+' : ''}{buff}%
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             ))}

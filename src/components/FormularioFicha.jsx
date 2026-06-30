@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { aplicarCores } from '../hooks/useFicha'
+import { calcularReikiTotal, valorComBuff } from '../utils/atributos'
 import './FormularioFicha.css'
 
 const CORES_CONFIG = [
@@ -31,6 +32,7 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
     atributos: {
       forca: 1000000, resistencia: 1000000, concentracao: 1000000,
       agilidade: 1000000, eficiencia: 1000000, reserva: 1000000,
+      buffs: {},
     },
     anotacoes: '',
     habilidades: [],
@@ -53,9 +55,18 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
     }))
   }
 
-  const reikiTotal = Object.values(ficha.atributos)
-    .reduce((s, v) => s + (Number(v) || 0), 0)
-    .toLocaleString('pt-BR')
+  const setBuff = (atrib, valor) => {
+    const num = parseInt(valor.replace(/[^\d-]/g, '')) || 0
+    setFicha(prev => ({
+      ...prev,
+      atributos: {
+        ...prev.atributos,
+        buffs: { ...(prev.atributos.buffs || {}), [atrib]: num }
+      }
+    }))
+  }
+
+  const reikiTotal = calcularReikiTotal(ficha.atributos).toLocaleString('pt-BR')
 
   const setCor = (key, valor) =>
     setFicha(prev => ({ ...prev, cores: { ...(prev.cores || {}), [key]: valor } }))
@@ -148,18 +159,42 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
       <div className="form-section">
         <h3 className="form-section-titulo">Atributos</h3>
         <div className="atributos-form-lista">
-          {ATRIBUTOS.map(({ key, label }) => (
-            <div key={key} className="atrib-form-linha">
-              <label>{label}</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={(ficha.atributos[key] || 0).toLocaleString('pt-BR')}
-                onChange={e => setAtrib(key, e.target.value)}
-                placeholder="0"
-              />
-            </div>
-          ))}
+          {ATRIBUTOS.map(({ key, label }) => {
+            const base = ficha.atributos[key] || 0
+            const buff = ficha.atributos.buffs?.[key] || 0
+            const final = valorComBuff(base, buff)
+            return (
+              <div key={key} className="atrib-form-linha">
+                <div className="atrib-form-topo">
+                  <label>{label}</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={base.toLocaleString('pt-BR')}
+                    onChange={e => setAtrib(key, e.target.value)}
+                    placeholder="0"
+                  />
+                </div>
+                <div className="atrib-form-buff-linha">
+                  <span className="atrib-buff-label">Buff</span>
+                  <div className="atrib-buff-wrap">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      className="atrib-input-buff"
+                      value={buff || ''}
+                      onChange={e => setBuff(key, e.target.value)}
+                      placeholder="0"
+                    />
+                    <span className="atrib-buff-simbolo">%</span>
+                  </div>
+                  <span className="atrib-form-final" title="Base + buff%">
+                    = {final.toLocaleString('pt-BR')}
+                  </span>
+                </div>
+              </div>
+            )
+          })}
         </div>
 
         <div className="reiki-form-display">
