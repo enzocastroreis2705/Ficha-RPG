@@ -29,8 +29,8 @@ export const api = {
   me:       ()     => request('GET',  '/auth/me'),
 
   // Fichas
-  listarFichas:   ()           => request('GET',    '/fichas/'),
-  criarFicha:     (body)       => request('POST',   '/fichas/', body),
+  listarFichas:   ()           => request('GET',    '/fichas'),
+  criarFicha:     (body)       => request('POST',   '/fichas', body),
   obterFicha:     (id)         => request('GET',    `/fichas/${id}`),
   atualizarFicha: (id, body)   => request('PUT',    `/fichas/${id}`, body),
   deletarFicha:   (id)         => request('DELETE', `/fichas/${id}`),
