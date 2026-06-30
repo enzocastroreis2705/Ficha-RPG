@@ -52,6 +52,10 @@
   object-position: center 10%;
 }
 
+.ficha-imagem-mobile {
+  display: none;
+}
+
 /* Gradiente da borda direita fundindo com o fundo */
 .ficha-imagem-vinheta {
   position: absolute;
@@ -287,6 +291,14 @@
 
   [data-theme="light"] .ficha-imagem {
     object-position: center 8%;
+  }
+
+  .ficha-imagem-desktop {
+    display: none;
+  }
+
+  .ficha-imagem-mobile {
+    display: block;
   }
 
   .ficha-imagem-vinheta {

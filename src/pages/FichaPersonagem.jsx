@@ -5,6 +5,8 @@ import VisualizacaoFicha from '../components/VisualizacaoFicha'
 import FormularioFicha from '../components/FormularioFicha'
 import vergilDark from '../assets/Vergil.png'
 import vergilLight from '../assets/Vergil-White.png'
+import vergilMobileDark from '../assets/Vergil-mobile.png'
+import vergilMobileLight from '../assets/Vergil-Mobile-white.png'
 import './FichaPersonagem.css'
 
 function TelaHabilidade({ hab, onVoltar }) {
@@ -86,6 +88,7 @@ function FichaPersonagem() {
   }
 
   const vergilImg = tema === 'light' ? vergilLight : vergilDark
+  const vergilImgMobile = tema === 'light' ? vergilMobileLight : vergilMobileDark
 
   if (carregando) {
     return <div className="carregando">Invocando...</div>
@@ -127,7 +130,8 @@ function FichaPersonagem() {
     <div className="ficha-layout transicao-fade">
       {/* Painel esquerdo — imagem */}
       <aside className="ficha-imagem-panel">
-        <img src={vergilImg} alt="Vergil" className="ficha-imagem" />
+        <img src={vergilImg} alt="Vergil" className="ficha-imagem ficha-imagem-desktop" />
+        <img src={vergilImgMobile} alt="Vergil" className="ficha-imagem ficha-imagem-mobile" />
         <div className="ficha-imagem-vinheta" />
       </aside>
 
