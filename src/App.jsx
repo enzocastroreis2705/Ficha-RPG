@@ -4,7 +4,6 @@ import { useAuth } from './context/AuthContext'
 import Layout from './components/Layout'
 import FichaPersonagem from './pages/FichaPersonagem'
 import Login from './pages/Login'
-import Register from './pages/Register'
 import Entrada from './pages/Entrada'
 import './App.css'
 import './styles/auth.css'
@@ -45,7 +44,6 @@ function App() {
   return (
     <Routes>
       <Route path="/login"       element={<RotaPublica><Login /></RotaPublica>} />
-      <Route path="/registro"    element={<RotaPublica><Register /></RotaPublica>} />
       <Route path="/ver/:fichaId" element={<Entrada />} />
       <Route path="/"            element={<RaizRedirect />} />
       <Route path="*"            element={<Navigate to="/" replace />} />

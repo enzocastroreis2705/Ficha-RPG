@@ -10,6 +10,9 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/register", response_model=schemas.TokenResponse, status_code=201)
 def register(body: schemas.UserRegister, db: Session = Depends(get_db)):
+    if db.query(models.User).first():
+        raise HTTPException(status_code=403, detail="Cadastro indisponível")
+
     if db.query(models.User).filter(models.User.email == body.email).first():
         raise HTTPException(status_code=400, detail="Email já cadastrado")
 
