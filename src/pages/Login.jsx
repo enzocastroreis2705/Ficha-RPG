@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import EspadasFundo from '../components/EspadasFundo'
 import '../styles/auth.css'
@@ -59,10 +59,6 @@ export default function Login() {
             {carregando ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
-
-        <p className="auth-rodape">
-          Não tem conta? <Link to="/registro">Criar conta</Link>
-        </p>
       </div>
     </div>
   )
