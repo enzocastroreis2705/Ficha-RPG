@@ -5,6 +5,8 @@ import { useTema } from '../context/ThemeContext'
 import VisualizacaoFicha from '../components/VisualizacaoFicha'
 import vergilDark from '../assets/Vergil.png'
 import vergilLight from '../assets/Vergil-White.png'
+import vergilMobileDark from '../assets/Vergil-mobile.png'
+import vergilMobileLight from '../assets/Vergil-Mobile-white.png'
 import './Viewer.css'
 
 function TelaHabilidade({ hab, onVoltar }) {
@@ -64,6 +66,7 @@ export default function Viewer() {
   const [habAberta, setHabAberta] = useState(null)
 
   const vergilImg = tema === 'light' ? vergilLight : vergilDark
+  const vergilImgMobile = tema === 'light' ? vergilMobileLight : vergilMobileDark
 
   const buscarFicha = useCallback(async () => {
     try {
@@ -102,7 +105,8 @@ export default function Viewer() {
       ) : (
         <div className="ficha-layout transicao-fade">
           <aside className="ficha-imagem-panel">
-            <img src={vergilImg} alt="Vergil" className="ficha-imagem" />
+            <img src={vergilImg} alt="Vergil" className="ficha-imagem ficha-imagem-desktop" />
+            <img src={vergilImgMobile} alt="Vergil" className="ficha-imagem ficha-imagem-mobile" />
             <div className="ficha-imagem-vinheta" />
           </aside>
           <section className="ficha-conteudo">
