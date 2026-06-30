@@ -29,7 +29,7 @@ def obter_publico(ficha_id: int, db: Session = Depends(get_db)):
     return _parse(ficha)
 
 
-@router.get("/", response_model=list[schemas.FichaResponse])
+@router.get("", response_model=list[schemas.FichaResponse])
 def listar(
     current_user: models.User = Depends(auth_utils.get_current_user),
     db: Session = Depends(get_db),
@@ -37,7 +37,7 @@ def listar(
     return [_parse(f) for f in db.query(models.Ficha).filter(models.Ficha.user_id == current_user.id).all()]
 
 
-@router.post("/", response_model=schemas.FichaResponse, status_code=201)
+@router.post("", response_model=schemas.FichaResponse, status_code=201)
 def criar(
     body: schemas.FichaCreate,
     current_user: models.User = Depends(auth_utils.get_current_user),
