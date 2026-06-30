@@ -24,8 +24,6 @@ function RaizRedirect() {
       .then(fichas => {
         if (fichas.length > 0) {
           navigate(`/ver/${fichas[0].id}`, { replace: true })
-        } else {
-          setErro('Nenhuma ficha encontrada.')
         }
       })
       .catch(() => setErro('Não foi possível conectar ao servidor. Verifique se o backend está rodando.'))
