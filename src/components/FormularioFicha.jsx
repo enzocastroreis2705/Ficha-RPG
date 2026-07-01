@@ -55,6 +55,14 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
     }))
   }
 
+  const setRefino = (valor) => {
+    const num = parseInt(valor.replace(/\D/g, '')) || 0
+    setFicha(prev => ({
+      ...prev,
+      atributos: { ...prev.atributos, refino: num }
+    }))
+  }
+
   const setBuff = (atrib, valor) => {
     const num = parseInt(valor.replace(/[^\d-]/g, '')) || 0
     setFicha(prev => ({
@@ -202,6 +210,18 @@ function FormularioFicha({ fichaInicial, onSalvar, onCancelar }) {
               </div>
             )
           })}
+        </div>
+
+        <div className="refino-form-row">
+          <label className="refino-form-label">Refino</label>
+          <input
+            type="text"
+            inputMode="numeric"
+            className="refino-form-input"
+            value={(ficha.atributos.refino || 0).toLocaleString('pt-BR')}
+            onChange={e => setRefino(e.target.value)}
+            placeholder="0"
+          />
         </div>
 
         <div className="reiki-form-display">
