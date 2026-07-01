@@ -386,6 +386,340 @@
   transform: translateX(4px);
 }
 
+/* ── Refino + Botão Amplificação ── */
+.refino-ampli-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.refino-display {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 2px solid color-mix(in srgb, var(--accent-light) 40%, transparent);
+  padding: 0.45rem 1rem;
+  flex-shrink: 0;
+}
+
+.refino-display-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.refino-display-valor {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.btn-ampli {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  padding: 0.5rem 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ── Cards de resultado ── */
+.ampli-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.ampli-card {
+  background: color-mix(in srgb, var(--accent-light) 5%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--accent-light) 30%, transparent);
+  border-left: 2px solid var(--accent-light);
+  padding: 0.85rem 1rem;
+}
+
+.ampli-card-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+}
+
+.ampli-card-titulo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+}
+
+.ampli-card-acoes {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.ampli-btn-acao {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+  padding: 0.1rem 0.45rem;
+  font-family: inherit;
+  line-height: 1.4;
+  transition: all 0.2s;
+}
+
+.ampli-btn-acao:hover {
+  border-color: var(--accent-light);
+  color: var(--text);
+}
+
+.ampli-atribs-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.ampli-atrib-linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.ampli-atrib-nome {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ampli-atrib-valor {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  text-shadow: 0 0 16px var(--accent-glow);
+  letter-spacing: 0.04em;
+}
+
+/* checkboxes no modal */
+.ampli-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ampli-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  user-select: none;
+}
+
+.ampli-check-item input[type="checkbox"] {
+  accent-color: var(--accent-light);
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.ampli-check-ativo {
+  border-color: color-mix(in srgb, var(--accent-light) 50%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 6%, transparent);
+}
+
+.ampli-check-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+  flex: 1;
+}
+
+.ampli-check-val {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  letter-spacing: 0.05em;
+}
+
+.ampli-resultado-valor {
+  display: block;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  text-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.ampli-detalhe {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+  opacity: 0.75;
+}
+
+/* ── Modal de Amplificação ── */
+.ampli-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.ampli-modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--accent-light);
+  padding: 2rem;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: var(--shadow), 0 0 60px var(--accent-glow);
+  animation: ampli-entra 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ampli-entra {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ampli-modal-titulo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+
+.ampli-form-group {
+  margin-bottom: 1.2rem;
+}
+
+.ampli-form-group label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+}
+
+.ampli-hint {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  color: var(--accent-light);
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+  text-transform: none;
+  font-weight: normal;
+}
+
+.ampli-form-group input,
+.ampli-form-group select {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  color: var(--text);
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ampli-form-group input:focus,
+.ampli-form-group select:focus {
+  border-color: var(--accent-light);
+  box-shadow: 0 2px 0 0 var(--accent-light), 0 0 12px var(--accent-glow);
+}
+
+.ampli-preview {
+  background: color-mix(in srgb, var(--accent-light) 4%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--accent-light) 20%, transparent);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.2rem;
+}
+
+.ampli-preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.22rem 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.66rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+}
+
+.ampli-z-row {
+  color: var(--accent-light);
+  font-weight: 700;
+  border-bottom: none;
+}
+
+.ampli-preview-resultado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.65rem;
+  margin-top: 0.4rem;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  text-shadow: 0 0 16px var(--accent-glow);
+  letter-spacing: 0.05em;
+  border-top: 1px solid var(--border);
+}
+
+.ampli-erro {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  color: #d04060;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.ampli-modal-acoes {
+  display: flex;
+  gap: 0.8rem;
+}
+
 /* ── Responsivo ── */
 @media (max-width: 768px) {
   .ficha-nome {

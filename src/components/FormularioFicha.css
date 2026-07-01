@@ -220,6 +220,43 @@
   text-shadow: 0 0 12px var(--accent-glow);
 }
 
+/* ── Refino ── */
+.refino-form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 1rem;
+  border: 1px dashed var(--border);
+  margin-top: 0.4rem;
+}
+
+.refino-form-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.refino-form-input {
+  width: 90px !important;
+  padding: 0.35rem 0.6rem !important;
+  text-align: right;
+  font-size: 0.9rem !important;
+  font-weight: 700;
+  color: var(--text) !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+
+.refino-form-input:focus {
+  border-bottom-color: var(--accent-light) !important;
+  box-shadow: none !important;
+}
+
 /* ── Reiki calculado ── */
 .reiki-form-display {
   display: flex;
